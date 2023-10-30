@@ -25,9 +25,9 @@ module hh #(parameter EXP = 8'b0010_1011) (
     assign n_beta = EXP*(-state >> 6) >> 3;
     assign n_act = n_alph / (n_alph + n_beta);
 
-    assign INa = ((state - ENa)) >> 3;
-    assign IK = ((state - EK)) >> 4;
-    assign IKleak = (state - EKleak) >> 2;
+    assign INa = ((state - -50)) >> 3;
+    assign IK = ((state - 77)) >> 4;
+    assign IKleak = (state - 54) >> 2;
 
     assign current = stim_current - INa - IK - IKleak;
     assign next_state = state + (current)>>2;
