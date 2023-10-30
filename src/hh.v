@@ -31,7 +31,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
 
     assign current = stim_current - INa - IK - IKleak;
     assign next_state = state + deltaT*(current);
-    assign spike = (state >= threshold)
+    assign spike = (state >= threshold);
 
     always @(posedge clk) begin
         if (!rst_n) begin
