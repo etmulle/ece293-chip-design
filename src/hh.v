@@ -5,7 +5,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     input wire clk,
     input wire rst_n,
     output reg [7:0] state,
-    output wire spike );
+    output wire [7:0] spike );
 
     reg [7:0] next_state, threshold, current, INa, IK, IKleak, m_alph, m_beta, m_act, h_alph, h_beta, h_act, n_alph, n_beta, n_act;
 

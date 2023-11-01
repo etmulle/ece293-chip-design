@@ -17,6 +17,6 @@ module tt_um_hodgkin_huxley  (
 
 
     // instantiate hh neuron
-    hh hh1(.stim_current(ui_in), .clk(clk), .rst_n(rst_n), .state(uo_out), .spike(uio_out[7]));
+    hh hh1(.stim_current(ui_in), .clk(clk), .rst_n(rst_n), .state(uo_out), .spike(uio_out));
 
 endmodule
