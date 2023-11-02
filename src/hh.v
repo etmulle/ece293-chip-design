@@ -41,12 +41,6 @@ module hh #(parameter EXP = 8'b0010_1011) (
     assign next_m = m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
     assign next_h = h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
     
-    always @(*) begin
-        n <= next_n;
-        m <= next_m;
-        h <= next_h;
-    end
-
     always @(posedge clk) begin
         if (!rst_n) begin
             state <= 0;
