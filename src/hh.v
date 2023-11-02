@@ -37,9 +37,9 @@ module hh #(parameter EXP = 8'b0010_1011) (
     assign spike = (state >= threshold);
 
     // (Vm*(1-n)*(a_n) - (V_m)*n*beta_n)*dt
-    assign next_n = n + 1;//(((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
-    assign next_m = m + 1;//(((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
-    assign next_h = h + 1;//(((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
+    assign next_n = n + (((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
+    assign next_m = m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
+    assign next_h = h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
     
 
     always @(posedge clk) begin
@@ -52,9 +52,9 @@ module hh #(parameter EXP = 8'b0010_1011) (
         end
         else begin
             state <= next_state;
-            n <= next_n;
-            m <= next_m;
-            h <= next_h;
+            n <= 1;
+            m <= 1;
+            h <= 1;
         end
     end
 
