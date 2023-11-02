@@ -28,7 +28,7 @@ module tb ();
     wire [7:0] uio_out;
     wire [7:0] uio_oe;
 
-    tt_um_seven_segment_seconds tt_um_seven_segment_seconds (
+    tt_um_hodgkin_huxley tt_um_hodgkin_huxley (
     // include power ports for the Gate Level test
     `ifdef GL_TEST
         .VPWR( 1'b1),
