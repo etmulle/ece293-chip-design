@@ -50,7 +50,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
             state <= next_state;
             n <= next_n;
             m <= next_m;
-            h <= next_h
+            h <= next_h;
         end
     end
 
