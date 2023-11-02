@@ -8,8 +8,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     output wire [7:0] spike );
 
     //reg [7:0] next_state, threshold, current, INa, IK, IKleak, m_alph, m_beta, m_act, h_alph, h_beta, h_act, n_alph, n_beta, n_act;
-    reg [7:0] next_state, threshold, current, VK, VNa, Vl, n, m, h;//, next_n, next_m, next_h;
-    wire [7:0] next_n, next_m, next_h;
+    reg [7:0] next_state, threshold, current, VK, VNa, Vl, n, m, h, next_n, next_m, next_h;
     // V = I/c
     // Check if activation changes per time step
     // Make constants parameters in model declaration
@@ -38,10 +37,11 @@ module hh #(parameter EXP = 8'b0010_1011) (
     assign spike = (state >= threshold);
 
     // (Vm*(1-n)*(a_n) - (V_m)*n*beta_n)*dt
-    assign next_n = n+1;//n + (((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
-    assign next_m = m+1;//m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
-    assign next_h = h+1;//h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
+    assign next_n = n + (((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
+    assign next_m = m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
+    assign next_h = h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
     
+
     always @(posedge clk) begin
         if (!rst_n) begin
             state <= 0;
@@ -52,9 +52,9 @@ module hh #(parameter EXP = 8'b0010_1011) (
         end
         else begin
             state <= next_state;
-            n <= next_n;
-            m <= next_m;
-            h <= next_h;
+            // n <= next_n;
+            // m <= next_m;
+            // h <= next_h;
         end
     end
 
