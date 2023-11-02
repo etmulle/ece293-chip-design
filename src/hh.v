@@ -33,9 +33,9 @@ module hh #(parameter EXP = 8'b0010_1011) (
     assign current = stim_current - (((m**3)*h*(state - -50)) >> 3) - (((n**4)*(state - 77)) >> 4) - ((state - 54) >> 2);
     assign next_state = state + (current >> 2);
     assign spike = (state >= threshold);
-    // assign next_n = ((state*(1-n)) >> 2 - (state*n) >> 2) >> 2;
-    // assign next_m = ((state*(1-m)) >> 2 - (state*m) >> 2) >> 2;
-    // assign next_h = ((state*(1-h)) >> 2 - (state*h) >> 2) >> 2;
+    assign next_n = ((state*(1-n)) >> 2 - (state*n) >> 2) >> 2;
+    assign next_m = ((state*(1-m)) >> 2 - (state*m) >> 2) >> 2;
+    assign next_h = ((state*(1-h)) >> 2 - (state*h) >> 2) >> 2;
     
 
     always @(posedge clk) begin
