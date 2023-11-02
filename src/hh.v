@@ -8,8 +8,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     output wire [7:0] spike );
 
     //reg [7:0] next_state, threshold, current, INa, IK, IKleak, m_alph, m_beta, m_act, h_alph, h_beta, h_act, n_alph, n_beta, n_act;
-    reg [7:0] next_state, threshold, current, VK, VNa, Vl, m, h, n, next_m, next_h;
-    wire [7:0] next_n;
+    reg [7:0] next_state, threshold, current, VK, VNa, Vl, n, m, h, next_n, next_m, next_h;
     // V = I/c
     // Check if activation changes per time step
     // Make constants parameters in model declaration
@@ -53,7 +52,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
         end
         else begin
             state <= next_state;
-            n <= next_n;
+            n <= 2;
             // m <= next_m;
             // h <= next_h;
         end
