@@ -33,7 +33,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     //                              m^3 h (Vm - VNa) g_Na               n^4 (Vm - Vk) g_k               (Vm - Vl) g_l
     assign current = stim_current - (((m**3)*h*(state - -50)) >> 3) - (((n**4)*(state - 77)) >> 4) - ((state - 54) >> 2);
     // state(t+1) = state(t) + current*dt
-    assign next_state = state + (current >> 2);
+    assign next_state = (spike ? 0 : (state >> 1)) + (current);
     assign spike = (state >= threshold);
 
     // (Vm*(1-n)*(a_n) - (V_m)*n*beta_n)*dt
@@ -45,7 +45,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     always @(posedge clk) begin
         if (!rst_n) begin
             state <= 0;
-            threshold <= 150;
+            threshold <= 50;
             n <= 8'b0000_1000;
             m <= 8'b0000_0010;
             h <= 8'b0000_0100;
