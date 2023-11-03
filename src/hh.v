@@ -32,7 +32,7 @@ module hh  ( //#(parameter EXP = 8'b0010_1011)
 
     //assign current = stim_current - INa - IK - IKleak;
     //                              m^3 h (Vm - VNa) g_Na               n^4 (Vm - Vk) g_k               (Vm - Vl) g_l
-    assign current = stim_current - (((m << 2)*h*(state - -50)) >> 3) - (((n << 3)*(state - 77)) >> 4) - ((state - 54) >> 2);
+    assign current = stim_current - (((m)*h*(state - -50)) >> 3) - (((n)*(state - 77)) >> 4) - ((state - 54) >> 2);
     // state(t+1) = state(t) + current*dt
     assign next_state = (spike[0] ? 0 : (state)) + (current >> 2);
     assign spike = {7'b0, state>= threshold};
