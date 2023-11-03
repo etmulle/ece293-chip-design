@@ -13,7 +13,7 @@ module tt_um_hodgkin_huxley  (
 
     // use bidirectionals as outputs
     assign uio_oe = 8'b11111111;
-    assign ena = 1'b1;
+    // assign ena = 1'b1;
     // assign uio_out = 8'b00000000;
 
 
