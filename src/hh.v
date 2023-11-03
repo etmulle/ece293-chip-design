@@ -1,6 +1,6 @@
 `default_nettype none
 
-module hh #(parameter EXP = 8'b0010_1011) (
+module hh  ( //#(parameter EXP = 8'b0010_1011)
     input wire [7:0] stim_current,
     input wire clk,
     input wire rst_n,
@@ -8,7 +8,7 @@ module hh #(parameter EXP = 8'b0010_1011) (
     output wire [7:0] spike );
 
     //reg [7:0] next_state, threshold, current, INa, IK, IKleak, m_alph, m_beta, m_act, h_alph, h_beta, h_act, n_alph, n_beta, n_act;
-    reg [7:0] next_state, threshold, current, VK, VNa, Vl, n, m, h, next_n, next_m, next_h;
+    reg [7:0] next_state, threshold, current, n, m, h, next_n, next_m, next_h;//VK, VNa, Vl
     // V = I/c
     // Check if activation changes per time step
     // Make constants parameters in model declaration
@@ -33,8 +33,8 @@ module hh #(parameter EXP = 8'b0010_1011) (
     //                              m^3 h (Vm - VNa) g_Na               n^4 (Vm - Vk) g_k               (Vm - Vl) g_l
     assign current = stim_current - (((m**3)*h*(state - -50)) >> 3) - (((n**4)*(state - 77)) >> 4) - ((state - 54) >> 2);
     // state(t+1) = state(t) + current*dt
-    assign next_state = (spike ? 0 : (state)) + (current >> 2);
-    assign spike = (state >= threshold);
+    assign next_state = (spike[0] ? 0 : (state)) + (current >> 2);
+    assign spike[0] = (state >= threshold);
 
     // (Vm*(1-n)*(a_n) - (V_m)*n*beta_n)*dt
     assign next_n = n + (((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
