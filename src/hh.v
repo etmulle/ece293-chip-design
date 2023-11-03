@@ -8,8 +8,8 @@ module hh  ( //#(parameter EXP = 8'b0010_1011)
     output wire [7:0] spike );
 
     //reg [7:0] next_state, threshold, current, INa, IK, IKleak, m_alph, m_beta, m_act, h_alph, h_beta, h_act, n_alph, n_beta, n_act;
-    reg [7:0] threshold, n, m, h;//VK, VNa, Vl
-    wire [7:0] next_state, current, next_n, next_m, next_h;
+    reg [7:0] threshold, n;//, m, h;//VK, VNa, Vl
+    wire [7:0] next_state, current, next_n;//, next_m, next_h;
     // V = I/c
     // Check if activation changes per time step
     // Make constants parameters in model declaration
@@ -32,7 +32,7 @@ module hh  ( //#(parameter EXP = 8'b0010_1011)
 
     //assign current = stim_current - INa - IK - IKleak;
     //                              m^3 h (Vm - VNa) g_Na               n^4 (Vm - Vk) g_k               (Vm - Vl) g_l
-    assign current = stim_current - (((m)*h*(state - -50)) >> 3) - (((n)*(state - 77)) >> 4) - ((state - 54) >> 2);
+    assign current = stim_current - (((n)*n*(state - -50)) >> 3) - (((n)*(state - 77)) >> 4) - ((state - 54) >> 2);
     // state(t+1) = state(t) + current*dt
     assign next_state = (spike[0] ? 0 : (state)) + (current >> 2);
     assign spike = {7'b0, state>= threshold};
@@ -42,8 +42,8 @@ module hh  ( //#(parameter EXP = 8'b0010_1011)
 
     // (Vm*(1-n)*(a_n) - (V_m)*n*beta_n)*dt
     assign next_n = n + (((state*(1-n)) >> 2 - (state*n) >> 2) >> 2); // replace states w/ alpha(state)
-    assign next_m = m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
-    assign next_h = h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
+    // assign next_m = m + (((state*(1-m)) >> 2 - (state*m) >> 2) >> 2);
+    // assign next_h = h + (((state*(1-h)) >> 2 - (state*h) >> 2) >> 2);
     
 
     always @(posedge clk) begin
@@ -51,14 +51,14 @@ module hh  ( //#(parameter EXP = 8'b0010_1011)
             state <= 0;
             threshold <= 50;
             n <= 8'b0000_1000;
-            m <= 8'b0000_0010;
-            h <= 8'b0000_0100;
+            // m <= 8'b0000_0010;
+            // h <= 8'b0000_0100;
         end
         else begin
             state <= next_state;
             n <= next_n;
-            m <= next_m;
-            h <= next_h;
+            // m <= next_m;
+            // h <= next_h;
         end
     end
 
